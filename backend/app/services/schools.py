@@ -6,6 +6,8 @@ from app.models.school import School
 from app.schemas.school import SchoolCreate, SchoolOut, SchoolStatus, SchoolUpdate, SchoolUpdateStatus
 from datetime import datetime, timezone
 
+from app.utils.dates import now_utc
+
 def flatten_dict(d: dict, prefix: str = "") -> dict:
     items = []
     for key, value in d.items():
@@ -71,6 +73,7 @@ async def update_school_status(id: PydanticObjectId, status_str: SchoolStatus):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"School with id {id} not found")
 
     await school_to_update.set({School.status: status_str})
+    await school_to_update.set({School.updatedAt: now_utc()})
     return school_to_update
 
 async def update_school(id: PydanticObjectId, data: SchoolUpdate) -> School:
@@ -82,5 +85,6 @@ async def update_school(id: PydanticObjectId, data: SchoolUpdate) -> School:
     flat_dict = flatten_dict(update_dict)
 
     await school_to_update.set(flat_dict)
+    await school_to_update.set({School.updatedAt: now_utc()})
 
     return school_to_update
