@@ -34,6 +34,8 @@ async def login(identifier: str, password: str):
         createdAt=datetime.now(timezone.utc),
     )
 
+    await user.set({"lastLogin": datetime.now(timezone.utc)})
+
     await SessionDoc.insert_one(user_session)
 
     return user, token, expires
