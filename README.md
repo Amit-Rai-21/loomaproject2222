@@ -198,6 +198,7 @@ looma-dashboard/
 | POST | `/api/users/add` | Add a user |
 | DELETE | `/api/users/:user_id` | Delete a user |
 | PATCH | `/api/users/:user_id` | Update user data |
+| PATCH | `/api/users/me` | Update your own user data |
 
 ### Logs
 | Method | Endpoint | Description |

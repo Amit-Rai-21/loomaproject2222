@@ -1,3 +1,4 @@
+import re
 from typing import Dict, List
 
 from beanie import PydanticObjectId
@@ -25,14 +26,23 @@ async def list_schools(search: str | None = None, province: str | None = None) -
     school_list: List[SchoolOut] = []
 
     if search is not None:
+        safe_search = re.escape(search)
         schools = await School.find(
-            {"$text": {"$search": search}}
+            {
+                "$or": [
+                    {"name": {"$regex": safe_search, "$options": "i"}},
+                    {"district": {"$regex": safe_search, "$options": "i"}},
+                    {"province": {"$regex": safe_search, "$options": "i"}},
+                    {"palika": {"$regex": safe_search, "$options": "i"}},
+                    {"contact.headmaster": {"$regex": safe_search, "$options": "i"}},
+                    {"loomaId": {"$regex": safe_search, "$options": "i"}},
+                ]
+            }
         ).to_list()
     elif province is not None:
         schools = await School.find(School.province == province).to_list()
     else:
         schools = await School.find_all().to_list()
-
 
     for school in schools:
         s = SchoolOut(**school.model_dump(), qrScans=[], accessLogs=[])
