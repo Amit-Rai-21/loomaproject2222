@@ -12,11 +12,9 @@ async def login(identifier: str, password: str):
     )
 
     if not user:
-        print("LOGIN FAIL: user not found")
         return None
 
     if not verify_password(password, user.passwordHash):
-        print("LOGIN FAIL: invalid password")
         return None
 
     token = new_token()
