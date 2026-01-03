@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Users, Settings, Shield, Database, RefreshCw, Download, Upload, Bell, FileText, Loader2 } from "lucide-react"
+import { Plus, Users, Shield, Upload, Loader2 } from "lucide-react"
 import { schoolsAPI } from "@/lib/api-client"
 import { SpreadsheetImport } from "./spreadsheet-import"
 import type { School } from "@/lib/types"
@@ -94,14 +94,13 @@ export function AdminPanel({ isOpen, onClose, onSchoolAdded }: AdminPanelProps) 
               <Shield className="h-5 w-5 text-primary" />
               Admin Panel
             </SheetTitle>
-            <SheetDescription>Manage schools, users, and system settings</SheetDescription>
+            <SheetDescription>Manage Schools and Users</SheetDescription>
           </SheetHeader>
 
           <Tabs defaultValue="add-school" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="add-school">Add School</TabsTrigger>
               <TabsTrigger value="users">Users</TabsTrigger>
-              <TabsTrigger value="system">System</TabsTrigger>
             </TabsList>
 
             <TabsContent value="add-school" className="space-y-4 mt-4">
@@ -269,47 +268,6 @@ export function AdminPanel({ isOpen, onClose, onSchoolAdded }: AdminPanelProps) 
                   <Button variant="outline" className="w-full gap-2 bg-transparent">
                     <Plus className="h-4 w-4" />
                     Add User
-                  </Button>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="system" className="space-y-4 mt-4">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Settings className="h-4 w-4" />
-                    System Actions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
-                    <RefreshCw className="h-4 w-4" />
-                    Refresh All Device Status
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
-                    <Database className="h-4 w-4" />
-                    Backup Database
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
-                    <Download className="h-4 w-4" />
-                    Export Full Report
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full justify-start gap-2 bg-transparent"
-                    onClick={() => setShowImportDialog(true)}
-                  >
-                    <Upload className="h-4 w-4" />
-                    Import Schools (CSV)
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
-                    <Bell className="h-4 w-4" />
-                    Notification Settings
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
-                    <FileText className="h-4 w-4" />
-                    View System Logs
                   </Button>
                 </CardContent>
               </Card>

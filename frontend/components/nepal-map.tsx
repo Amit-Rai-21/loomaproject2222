@@ -25,7 +25,7 @@ export function NepalMap({ schools, onSchoolSelect }: NepalMapProps) {
       <div className="w-full h-[600px]">
         <div className="w-full h-[600px] overflow-hidden rounded-lg shadow-lg">
           <iframe 
-            src="https://www.google.com/maps/d/u/0/embed?mid=15EyYjwlVRqAuo6Rr848einYYEGuxIWM&ehbc=2E312F&noprof=1" 
+            src="https://www.google.com/maps/d/u/0/embed?mid=1Q8VyoKNEFL4avhpo0sLgUUqC_-j73kA&ehbc=2E312F" 
             className="w-full h-full border-0"
             allowFullScreen
             loading="lazy"

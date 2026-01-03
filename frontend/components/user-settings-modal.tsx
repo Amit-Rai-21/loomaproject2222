@@ -48,9 +48,6 @@ export function UserSettingsModal({
 
               <Separator />
 
-              <p className="text-xs text-gray-500">
-                More settings (notifications, password, preferences) can be added later.
-              </p>
             </CardContent>
           </Card>
         </div>

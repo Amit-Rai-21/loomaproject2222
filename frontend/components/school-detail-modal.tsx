@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
-import { MapPin, Monitor, Mail, Phone, User, Terminal, QrCode, History, Building, Globe, X, Clock } from "lucide-react"
+import { MapPin, Monitor, Mail, Phone, User, Terminal, Building, X, Clock } from "lucide-react"
 import { formatDistanceToNow, format } from "date-fns"
 import Image from "next/image"
 
@@ -60,7 +60,7 @@ export function SchoolDetailModal({ school, isOpen, onClose }: SchoolDetailModal
       `Connecting to ${school.loomaId?.toLowerCase() ?? "unknown"}.looma.local...`,
       "Connection established.",
       `Welcome to Looma OS v${school.looma?.version ?? "2.1.0"}`,
-      `Last seen: ${format(new Date(school.lastSeen), "PPp")}`,
+    
       "",
     ])
   }
@@ -120,7 +120,7 @@ export function SchoolDetailModal({ school, isOpen, onClose }: SchoolDetailModal
         `  Serial: ${school.looma?.serialNumber ?? "N/A"}`,
         `  Version: ${school.looma?.version ?? "2.1.0"}`,
         `  School: ${school.name}`,
-        `  Last Update: ${school.looma?.lastUpdate ?? "N/A"}`,
+
         "",
       ]
     }
@@ -208,9 +208,9 @@ export function SchoolDetailModal({ school, isOpen, onClose }: SchoolDetailModal
                 <DialogDescription className="text-sm text-white/90 mt-1 flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
                   {school.palika}, {school.district}, {school.province}
-                  <span className="mx-1 opacity-60">•</span>
-                  <Clock className="h-4 w-4" />
-                  {formatDistanceToNow(new Date(school.lastSeen), { addSuffix: true })}
+                  
+                  
+                  
                 </DialogDescription>
               </div>
             </div>
@@ -224,10 +224,8 @@ export function SchoolDetailModal({ school, isOpen, onClose }: SchoolDetailModal
           </DialogHeader>
 
           <Tabs defaultValue="info" className="flex-1 overflow-hidden flex flex-col">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="info">Info</TabsTrigger>
-              <TabsTrigger value="qr-scans">QR Scans</TabsTrigger>
-              <TabsTrigger value="access-logs">Access Logs</TabsTrigger>
               <TabsTrigger value="remote" disabled={!canAccessSSH}>
                 Remote
               </TabsTrigger>
@@ -312,120 +310,13 @@ export function SchoolDetailModal({ school, isOpen, onClose }: SchoolDetailModal
                         <span className="text-muted-foreground">Version</span>
                         <span className="font-mono">{school.looma.version}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Last Seen</span>
-                        <span className="text-xs">
-                          {formatDistanceToNow(new Date(school.lastSeen), { addSuffix: true })}
-                        </span>
-                      </div>
+                      
+                      
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-sm flex items-center gap-2">
-                        <Globe className="h-4 w-4" />
-                        Activity Summary
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Total QR Scans</span>
-                        <span className="font-semibold">{school.qrScans.length}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Total Access Logs</span>
-                        <span className="font-semibold">{school.accessLogs.length}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Last Update</span>
-                        <span className="text-xs">
-                          {formatDistanceToNow(new Date(school.looma.lastUpdate), { addSuffix: true })}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Last Activity</span>
-                        <span className="text-xs">
-                          {school.accessLogs.length > 0
-                            ? formatDistanceToNow(new Date(school.accessLogs[0].timestamp), { addSuffix: true })
-                            : "No activity"}
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  {/* Activity Summary removed (QR Scans + Access Logs are no longer shown in this modal) */}
                 </div>
-              </TabsContent>
-
-              <TabsContent value="qr-scans" className="mt-0">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-sm flex items-center gap-2">
-                      <QrCode className="h-4 w-4" />
-                      QR Code Scan History
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {school.qrScans.length === 0 ? (
-                      <p className="text-sm text-muted-foreground text-center py-8">No QR scans recorded for this school.</p>
-                    ) : (
-                      <div className="space-y-3">
-                        {school.qrScans.map((scan) => (
-                          <div key={scan.id} className="flex items-start gap-4 p-3 bg-secondary/50 rounded-lg">
-                            <div className="p-2 bg-accent rounded">
-                              <QrCode className="h-4 w-4 text-accent-foreground" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="font-medium text-sm">{scan.staffName}</span>
-                                <span className="text-xs text-muted-foreground">{format(new Date(scan.timestamp), "PPp")}</span>
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                Looma ID: <span className="font-mono">{scan.loomaId}</span>
-                              </p>
-                              {scan.notes && <p className="text-xs text-muted-foreground mt-1">{scan.notes}</p>}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="access-logs" className="mt-0">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-sm flex items-center gap-2">
-                      <History className="h-4 w-4" />
-                      Access Log History
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {school.accessLogs.length === 0 ? (
-                      <p className="text-sm text-muted-foreground text-center py-8">No access logs recorded for this school.</p>
-                    ) : (
-                      <div className="space-y-3">
-                        {school.accessLogs.map((log) => (
-                          <div key={log.id} className="flex items-start gap-4 p-3 bg-secondary/50 rounded-lg">
-                            <div className="p-2 bg-primary/10 rounded">
-                              <Terminal className="h-4 w-4 text-primary" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="font-medium text-sm">{log.action}</span>
-                                <span className="text-xs text-muted-foreground">{format(new Date(log.timestamp), "PPp")}</span>
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                User: <span className="font-mono">{log.user}</span>
-                              </p>
-                              {log.details && <p className="text-xs text-muted-foreground mt-1">{log.details}</p>}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
               </TabsContent>
 
               <TabsContent value="remote" className="mt-0">

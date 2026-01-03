@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Search, LogOut, User, Settings, List, Map, Bell } from "lucide-react"
+import { Search, LogOut, User, Settings, List, Map } from "lucide-react"
 import Image from "next/image"
 import { UserProfileModal } from "@/components/user-profile-modal"
 import { UserSettingsModal } from "@/components/user-settings-modal"
@@ -108,15 +108,6 @@ export function DashboardHeader({ searchQuery, onSearchChange, viewMode, onViewM
                 <span>Map</span>
               </Button>
             </div>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              className="relative h-11 w-11 rounded-xl hover:bg-[#2d4278] text-[#8b9dc3] hover:text-white transition-colors"
-            >
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-2 right-2 h-2.5 w-2.5 bg-[#f5c842] rounded-full border-2 border-[#1a2c5b] animate-pulse"></span>
-            </Button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
